@@ -6,13 +6,11 @@ import time
 
 """ Objective: Write a python script that prints the signal you send it via GNU/Linux. """
 
-
 print('My PID is ', os.getpid())
 
 # Print Signal Received
 def printsignal(signum, stack):
-    #print('Received a signal called ', signum)
-    print('Received a signal called ', signal.getsignal(signum))
+    print('Received a signal called ', signum)
     
 # Cycle through targets to find
 def cycle():
@@ -48,5 +46,3 @@ while True:
     cycle()
     print('Waiting...')
     time.sleep(3)
-    
-
