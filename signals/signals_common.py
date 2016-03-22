@@ -1,23 +1,19 @@
+#!/bin/bash
+
 import signal
-import os
-import time
 
-""" Signal Trapping Python Script """
+class JsDict(dict):
+    __getattr__ = dict.__getitem__
+    __setattr__ = dict.__setitem__
 
-""" Objective: Write a python script that redirects the signal you send it to a specified process via GNU/Linux. """
-
-
-print('My PID is ', os.getpid())
+signal_map = JsDict()
+for attr,val in vars(signal).items():
+    if attr.startswith('SIG'):
+        signal_map[attr] = val
 
 # Print Signal Received
 def printsignal(signum, stack):
     print('Received a signal called ', signum)
-    targetpid = input('Specify the PID of your deepest enemy.')
-    try:
-       val = int(targetpid)
-    except ValueError:
-       print("That's not an int!")
-    os.kill(targetpid, signum)
     
 # Cycle through targets to find
 def cycle():
@@ -48,10 +44,4 @@ def cycle():
     signal.signal(signal.SIGXCPU, printsignal)
     signal.signal(signal.SIGXFSZ, printsignal)
 
-# Look back to beginning
-while True:
-    cycle()
-    print('Waiting...')
-    time.sleep(3)
-    
-
+print 'SIGKILL is signal #%d' % signal_map.SIGKILL
